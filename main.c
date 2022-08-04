@@ -33,7 +33,7 @@ bool Year_Validation(uint8_t* year)
 bool ID_Validation(uint8_t* id)
 {
 	//check that ID is between 1 and 10
-	if (*id < 1 ||  *id > 10)
+	if (*id < 1 || *id > 10)
 	{
 		printf("Invalid Id\n");
 		return 0; //ID is invalid
@@ -61,14 +61,14 @@ uint8_t SDB_GetUsedSize()
 bool SDB_IsFull()
 {
 	uint8_t counter = SDB_GetUsedSize();
-	if(counter==Max)// Database is full
-    {
-        return 1;
-    }
-    else
-    {
-        return 0; //Not Full
-    }
+	if (counter == Max)// Database is full
+	{
+		return 1;
+	}
+	else
+	{
+		return 0; //Not Full
+	}
 }
 
 bool SDB_IsIdExist(uint8_t id)
@@ -90,8 +90,8 @@ bool SDB_IsIdExist(uint8_t id)
 }
 bool SDB_AddEntry(uint8_t id, uint8_t year, uint8_t* subjects, uint8_t* grades)
 {
-    if(SDB_IsIdExist(id)==1) printf("ID Already Exist!\n");
-	if (SDB_IsIdExist(id) == 1 || Grade_Validation(grades) == 0 || Year_Validation(&year)==0 || ID_Validation(&id)==0) // ID already exists/Invalid or grade/year invalid
+	if (SDB_IsIdExist(id) == 1) printf("ID Already Exist!\n");
+	if (SDB_IsIdExist(id) == 1 || Grade_Validation(grades) == 0 || Year_Validation(&year) == 0 || ID_Validation(&id) == 0) // ID already exists/Invalid or grade/year invalid
 	{
 		return 0; //Unsuccessful entry
 	}
@@ -162,16 +162,16 @@ void SDB_GetIdList(uint8_t* count, uint8_t* list)
 }
 int main()
 {
-    uint8_t count = 0,x=0,id = 0, year = 0;
+	uint8_t count = 0, x = 0, id = 0, year = 0;
 	uint8_t choice = 0;
 	printf("Welcome to Student Database\n");
 	while (choice != 8)
 	{
-	    uint8_t subjects[3] = { 0 },grades[3] = { 0 };
+		uint8_t subjects[3] = { 0 }, grades[3] = { 0 };
 		printf("Choose From The Following List a Function to Carry!\n1.Check if the Database is Full.\n2.Get Number of Entries in The Database.\n3.Add an Entry\n4.Delete an Entry.\n5.Read an Entry.\n6.Get List of Students' IDs.\n7.Check If an ID Exists\n8.Exit.\n");
-		printf("Note:1.ID acceptable range(1-10), Year acceptable range(1-12), Grade acceptable range(0-100)\n Enter Your No. of Choice: ");
+		printf("Note:ID acceptable range(1-10), Year acceptable range(1-12), Grade acceptable range(0-100).\nEnter Your No. of Choice: ");
 		scanf("%d", &x);
-		choice=x;
+		choice = x;
 		uint8_t* list = (uint8_t*)malloc(count * sizeof(uint8_t));
 		bool check;
 		switch (choice)
@@ -192,18 +192,18 @@ int main()
 		case 3:
 			printf("Enter ID: ");
 			scanf("%d", &x);
-			id=x;
+			id = x;
 			printf("Enter Year: ");
 			scanf("%d", &x);
-			year=x;
+			year = x;
 			for (int i = 0; i < 3; i++)
 			{
 				printf("Enter Subject %d ID: ", i + 1);
 				scanf("%d", &x);
-				subjects[i]=x;
+				subjects[i] = x;
 				printf("Enter Subject %d Grade: ", i + 1);
-				scanf("%d",&x);
-				grades[i]=x;
+				scanf("%d", &x);
+				grades[i] = x;
 			}
 			check = SDB_AddEntry(id, year, &subjects, &grades);
 			if (check == 1) printf("Successful Entry!\n\n\n");
@@ -212,14 +212,14 @@ int main()
 		case 4:
 			printf("Enter ID of Entry To Be Deleted: ");
 			scanf("%d", &x);
-			id=x;
+			id = x;
 			SDB_DeleteEntry(id);
 			printf("\n\n\n");
 			break;
 		case 5:
 			printf("Enter ID of Entry You Want To Read: ");
 			scanf("%d", &x);
-			id=x;
+			id = x;
 			check = SDB_ReadEntry(id, &year, &subjects, &grades);
 			if (check == 1)
 			{
@@ -247,7 +247,7 @@ int main()
 		case 7:
 			printf("Enter ID You Want To Look For: ");
 			scanf("%d", &x);
-			id=x;
+			id = x;
 			check = SDB_IsIdExist(id);
 			if (check == 1)
 			{
