@@ -169,7 +169,7 @@ int main()
 	{
 	    uint8_t subjects[3] = { 0 },grades[3] = { 0 };
 		printf("Choose From The Following List a Function to Carry!\n1.Check if the Database is Full.\n2.Get Number of Entries in The Database.\n3.Add an Entry\n4.Delete an Entry.\n5.Read an Entry.\n6.Get List of Students' IDs.\n7.Check If an ID Exists\n8.Exit.\n");
-		printf("Enter Your No. of Choice: ");
+		printf("Note:1.ID acceptable range(1-10), Year acceptable range(1-12), Grade acceptable range(0-100)\n Enter Your No. of Choice: ");
 		scanf("%d", &x);
 		choice=x;
 		uint8_t* list = (uint8_t*)malloc(count * sizeof(uint8_t));
