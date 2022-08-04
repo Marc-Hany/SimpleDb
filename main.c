@@ -32,7 +32,7 @@ bool Year_Validation(uint8_t* year)
 }
 bool ID_Validation(uint8_t* id)
 {
-	//check that year is between 1 and 10
+	//check that ID is between 1 and 10
 	if (*id < 1 ||  *id > 10)
 	{
 		printf("Invalid Id\n");
@@ -42,22 +42,6 @@ bool ID_Validation(uint8_t* id)
 	{
 		return 1; //ID is Valid
 	}
-}
-bool SDB_IsFull()
-{
-	uint8_t counter = 0;
-	for (int i = 0; i < Max; i++)
-	{
-		if (Database[i].ID != 0) //if ID=0 it means this entry is empty
-		{
-			counter++;
-		}
-		else
-		{
-		}
-	}
-	if (counter == Max) return 1; //counter=10 means all entries are filled
-	else return 0;
 }
 uint8_t SDB_GetUsedSize()
 {
@@ -74,6 +58,19 @@ uint8_t SDB_GetUsedSize()
 	}
 	return counter; //counter of filled elements
 }
+bool SDB_IsFull()
+{
+	uint8_t counter = SDB_GetUsedSize();
+	if(counter==Max)// Database is full
+    {
+        return 1;
+    }
+    else
+    {
+        return 0; //Not Full
+    }
+}
+
 bool SDB_IsIdExist(uint8_t id)
 {
 	//first check if this ID already exists
@@ -93,7 +90,8 @@ bool SDB_IsIdExist(uint8_t id)
 }
 bool SDB_AddEntry(uint8_t id, uint8_t year, uint8_t* subjects, uint8_t* grades)
 {
-	if (SDB_IsIdExist(id) == 1 || Grade_Validation(grades) == 0 || Year_Validation(&year)==0 || ID_Validation(&id)==0) // ID doesn't exist/ grade/year invalid
+    if(SDB_IsIdExist(id)==1) printf("ID Already Exist!\n");
+	if (SDB_IsIdExist(id) == 1 || Grade_Validation(grades) == 0 || Year_Validation(&year)==0 || ID_Validation(&id)==0) // ID already exists/Invalid or grade/year invalid
 	{
 		return 0; //Unsuccessful entry
 	}
@@ -164,11 +162,12 @@ void SDB_GetIdList(uint8_t* count, uint8_t* list)
 }
 int main()
 {
+    uint8_t count = 0,x=0,id = 0, year = 0;
 	uint8_t choice = 0;
 	printf("Welcome to Student Database\n");
-	uint8_t id = 0, year = 0, subjects[3] = { 0 }, grades[3] = { 0 }, count = 0,x=0;
 	while (choice != 8)
 	{
+	    uint8_t subjects[3] = { 0 },grades[3] = { 0 };
 		printf("Choose From The Following List a Function to Carry!\n1.Check if the Database is Full.\n2.Get Number of Entries in The Database.\n3.Add an Entry\n4.Delete an Entry.\n5.Read an Entry.\n6.Get List of Students' IDs.\n7.Check If an ID Exists\n8.Exit.\n");
 		printf("Enter Your No. of Choice: ");
 		scanf("%d", &x);
@@ -199,11 +198,11 @@ int main()
 			year=x;
 			for (int i = 0; i < 3; i++)
 			{
-				printf("Enter Subject %d ID : ", i + 1);
+				printf("Enter Subject %d ID: ", i + 1);
 				scanf("%d", &x);
 				subjects[i]=x;
-				printf("Enter Subject %d Grade : ", i + 1);
-				scanf("%d", &x);
+				printf("Enter Subject %d Grade: ", i + 1);
+				scanf("%d",&x);
 				grades[i]=x;
 			}
 			check = SDB_AddEntry(id, year, &subjects, &grades);
